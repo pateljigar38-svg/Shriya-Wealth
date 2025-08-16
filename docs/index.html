@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SHRIYA WEALTH 💎 - Enhanced Mutual Fund Advisory Platform</title>
+<title>SHRIYA WEALTH 💎 - Enhanced Mutual Fund Advisory Platform (XIRR Compliance)</title>
 <style>
   body { font-family: Arial, sans-serif; background: #f5f7fa; margin: 0; }
   header { background: #16336e; color: #fff; padding: 2rem; text-align: center; font-size: 2rem; font-weight: bold; }
-  main { max-width: 600px; margin: 2rem auto; background: #fff; border-radius: 10px; box-shadow: 0 0 20px #d3d8df; padding: 2rem; }
+  main { max-width: 700px; margin: 2rem auto; background: #fff; border-radius: 10px; box-shadow: 0 0 20px #d3d8df; padding: 2rem; }
   label { display: block; margin-top: 1rem; font-weight: bold; }
   input, select { width: 100%; padding: 0.6rem; margin: 0.5rem 0 1rem 0; border: 1px solid #bbb; border-radius: 5px; font-size: 1rem; }
   button { background: #16336e; color: #fff; border: none; border-radius: 5px; padding: 0.8rem 2rem; font-size: 1.1rem; cursor: pointer; margin-top: 1rem; }
@@ -15,6 +15,7 @@
   .output h2 { margin-top: 0; color: #16336e; }
   .fund-list { list-style: disc inside; margin: 0.8rem 0 0 0; }
   ul.note-list { font-size: 0.96rem; color: #3b4c69; margin-top: 1.5rem; }
+  .warning { color: #d9534f; font-weight: bold; margin-top: 1rem; }
 </style>
 <!-- jsPDF CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -24,7 +25,7 @@
 <body>
 <header>
   SHRIYA WEALTH 💎<br>
-  Enhanced Mutual Fund Advisory Platform
+  Enhanced Mutual Fund Advisory Platform (XIRR Compliance)
 </header>
 <main>
   <form id="advisorForm">
@@ -47,37 +48,60 @@
       <option value="aggressive">Aggressive</option>
     </select>
 
+    <label for="marketScenario">Market Scenario</label>
+    <select id="marketScenario" required>
+      <option value="bear">Bear Market</option>
+      <option value="bull">Bull Market</option>
+    </select>
+
     <button type="submit">Generate Portfolio</button>
   </form>
   <div id="output" class="output" style="display:none;">
     <h2>Suggested Portfolio</h2>
+    <div id="warningMsg" class="warning" style="display:none;"></div>
     <p><strong>Investment Type:</strong> <span id="outInvestmentType"></span></p>
     <p><strong>Investment Amount:</strong> ₹<span id="outInvestmentAmount"></span></p>
     <p><strong>Investment Tenor:</strong> <span id="outTenor"></span> years</p>
     <p><strong>Risk Profile:</strong> <span id="outRiskProfile"></span></p>
+    <p><strong>Market Scenario:</strong> <span id="outMarketScenario"></span></p>
     <p><strong>Number of Funds Suggested:</strong> <span id="outFundCount"></span></p>
+    <p><strong>Expected Portfolio XIRR:</strong> <span id="outPortfolioXirr"></span>%</p>
     <h3>Fund Recommendations</h3>
     <ul id="fundList" class="fund-list"></ul>
     <h3>Important Notes</h3>
     <ul class="note-list">
-      <li>Mandatory inclusion of Index funds for Conservative risk profile and Sectoral funds for Aggressive.</li>
-      <li>XIRR performance targets: ≥15% in bear markets, ≥20% in bull markets, never below category average.</li>
-      <li>Fund allocations comply with Shriya Wealth veteran strategy to avoid over-diversification or concentration.</li>
-      <li>Supports investment tenors from 3 to 30 years with compounded calculations.</li>
-      <li>Includes full AMFI universe coverage simulated with quality fund selections.</li>
+      <li>Mandatory inclusion of Index funds for Conservative and Sectoral funds for Aggressive risk profiles.</li>
+      <li>XIRR targets: ≥13% in bear markets and ≥20% in bull markets, never below category average.</li>
+      <li>Funds selected strictly meet XIRR minimum for given market condition.</li>
+      <li>Fund allocations comply with Shriya Wealth veteran strategy to avoid over-diversification and concentration.</li>
     </ul>
     <button id="pdfDownload" style="margin-top:1rem;">Download Portfolio PDF</button>
     <canvas id="allocChart" width="400" height="200" style="margin-top:1rem;"></canvas>
   </div>
 </main>
 <script>
-  // Veteran fund pools (simulated)
+  // Fund data with sample XIRRs for bear and bull markets
   const fundPools = {
-    conservative: ["Index Fund (Mandatory)", "Bond Fund", "Large Cap Fund"],
-    moderate: ["Multi Cap Fund", "Hybrid Fund", "Large & Midcap Fund", "ELSS Fund"],
-    aggressive: ["Sectoral Fund (Mandatory)", "Mid Cap Fund", "Small Cap Fund", "Thematic Fund", "Value Fund"]
+    conservative: [
+      { name: "Index Fund (Mandatory)", category: "Index", xirrBear: 14.2, xirrBull: 22.5 },
+      { name: "Government Bond Fund", category: "Bond", xirrBear: 13.5, xirrBull: 15.0 },
+      { name: "Large Cap Fund", category: "Large Cap", xirrBear: 13.8, xirrBull: 21.0 }
+    ],
+    moderate: [
+      { name: "Balanced Advantage Fund", category: "Balanced", xirrBear: 14.5, xirrBull: 23.0 },
+      { name: "Multi Cap Fund", category: "Multi Cap", xirrBear: 15.3, xirrBull: 24.5 },
+      { name: "Hybrid Fund", category: "Hybrid", xirrBear: 15.0, xirrBull: 22.7 }
+    ],
+    aggressive: [
+      { name: "Sectoral Fund (Mandatory)", category: "Sectoral", xirrBear: 22.7, xirrBull: 35.3 },
+      { name: "Mid Cap Fund", category: "Mid Cap", xirrBear: 21.4, xirrBull: 33.2 },
+      { name: "Small Cap Fund", category: "Small Cap", xirrBear: 23.1, xirrBull: 34.7 },
+      { name: "Thematic Fund", category: "Thematic", xirrBear: 20.8, xirrBull: 31.0 },
+      { name: "Value Fund", category: "Value", xirrBear: 20.5, xirrBull: 30.5 }
+    ]
   };
 
+  // Fund limits based on investment amount & type (same as your criteria)
   function getFundLimit(type, amount) {
     if (type === "sip") {
       if (amount <= 5000) return 3;
@@ -93,31 +117,65 @@
     return 2;
   }
 
-  function generateFunds(risk, count) {
-    let pool = fundPools[risk] || [];
-    let funds = [];
-    let mandatoryFund = pool[0];
-    funds.push(mandatoryFund);
-    let idx = 1;
-    while (funds.length < count && idx < pool.length) {
-      funds.push(pool[idx]);
-      idx++;
-      if (idx >= pool.length) idx = 1; // cycle through remaining funds if needed
-    }
-    while (funds.length < count) {
-      funds.push("Quality Equity Fund (Selection based on XIRR & Suitability)");
-    }
-    return funds;
+  // To filter funds based on min XIRR for market scenario
+  function filterFundsByXirr(funds, marketScenario, minXirr) {
+    return funds.filter(fund => {
+      let xirr = marketScenario === 'bear' ? fund.xirrBear : fund.xirrBull;
+      return xirr >= minXirr;
+    });
   }
 
-  let currentFunds = [];
+  // Generate portfolio strictly meeting XIRR and mandatory inclusion rules
+  function generatePortfolio(risk, fundCount, marketScenario, minXirr) {
+    let pool = fundPools[risk] || [];
+    // Filter eligible funds by XIRR
+    const eligibleFunds = filterFundsByXirr(pool, marketScenario, minXirr);
+
+    // Ensure mandatory fund is included
+    let mandatoryFund = eligibleFunds.find(f => f.name.includes('(Mandatory)'));
+    if (!mandatoryFund) {
+      // If mandatory fund does not qualify, portfolio cannot be formed
+      return { funds: [], error: true, message: `Mandatory fund for ${risk} profile does not meet the minimum XIRR requirement.` };
+    }
+
+    // Start portfolio with mandatory fund
+    let portfolio = [mandatoryFund];
+    // Remove mandatory fund to avoid duplication
+    let filteredFunds = eligibleFunds.filter(f => f.name !== mandatoryFund.name);
+
+    // Fill remaining slots up to fundCount
+    for (let fund of filteredFunds) {
+      if (portfolio.length >= fundCount) break;
+      portfolio.push(fund);
+    }
+
+    if (portfolio.length < fundCount) {
+      // If insufficient funds, fill with notes but signal warning
+      return { funds: portfolio, error: false, message: `Only ${portfolio.length} funds meet the XIRR requirements. Fund count requested was ${fundCount}.` };
+    }
+
+    return { funds: portfolio, error: false, message: '' };
+  }
+
+  // Calculate portfolio average XIRR weighted equally
+  function calculatePortfolioXirr(portfolio, marketScenario) {
+    if (portfolio.length === 0) return 0;
+    let sum = 0;
+    for (let fund of portfolio) {
+      sum += marketScenario === 'bear' ? fund.xirrBear : fund.xirrBull;
+    }
+    return (sum / portfolio.length).toFixed(2);
+  }
+
+  let currentPortfolio = [];
 
   document.getElementById("advisorForm").addEventListener("submit", function(e) {
     e.preventDefault();
-    let type = document.getElementById("investmentType").value;
-    let amount = Number(document.getElementById("investmentAmount").value);
-    let tenor = Number(document.getElementById("tenor").value);
-    let risk = document.getElementById("riskProfile").value;
+    const type = document.getElementById("investmentType").value;
+    const amount = Number(document.getElementById("investmentAmount").value);
+    const tenor = Number(document.getElementById("tenor").value);
+    const risk = document.getElementById("riskProfile").value;
+    const marketScenario = document.getElementById("marketScenario").value;
 
     if (amount < 1000) {
       alert("Please enter an investment amount of at least ₹1000.");
@@ -128,32 +186,57 @@
       return;
     }
 
-    let fundCount = getFundLimit(type, amount);
-    let fundList = generateFunds(risk, fundCount);
-    currentFunds = fundList.slice();
+    const minXirr = marketScenario === 'bear' ? 13 : 20;
+    const fundCount = getFundLimit(type, amount);
+    const result = generatePortfolio(risk, fundCount, marketScenario, minXirr);
+
+    currentPortfolio = result.funds;
 
     document.getElementById("outInvestmentType").textContent = type.toUpperCase();
     document.getElementById("outInvestmentAmount").textContent = amount.toLocaleString();
     document.getElementById("outTenor").textContent = tenor;
     document.getElementById("outRiskProfile").textContent = risk.charAt(0).toUpperCase() + risk.slice(1);
-    document.getElementById("outFundCount").textContent = fundCount;
+    document.getElementById("outMarketScenario").textContent = marketScenario.charAt(0).toUpperCase() + marketScenario.slice(1);
+    document.getElementById("outFundCount").textContent = result.funds.length;
+
+    if(result.error) {
+      document.getElementById("warningMsg").style.display = "block";
+      document.getElementById("warningMsg").textContent = result.message;
+      document.getElementById("output").style.display = "block";
+      document.getElementById("fundList").innerHTML = "";
+      document.getElementById("outPortfolioXirr").textContent = 'N/A';
+      clearChart();
+      return;
+    }
+    else if(result.message){
+      document.getElementById("warningMsg").style.display = "block";
+      document.getElementById("warningMsg").textContent = result.message;
+    } else {
+      document.getElementById("warningMsg").style.display = "none";
+      document.getElementById("warningMsg").textContent = "";
+    }
+
     let fundListElem = document.getElementById("fundList");
     fundListElem.innerHTML = "";
-    fundList.forEach(function(fund) {
+    result.funds.forEach(fund => {
       let li = document.createElement("li");
-      li.textContent = fund;
+      const xirrVal = marketScenario === 'bear' ? fund.xirrBear : fund.xirrBull;
+      li.textContent = `${fund.name} — XIRR: ${xirrVal}%`;
       fundListElem.appendChild(li);
     });
 
+    let portfolioXirr = calculatePortfolioXirr(result.funds, marketScenario);
+    document.getElementById("outPortfolioXirr").textContent = portfolioXirr;
+
     document.getElementById("output").style.display = "block";
-    drawChart(fundList);
+    drawChart(result.funds, marketScenario);
 
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   });
 
   // PDF generation (jsPDF)
   document.getElementById("pdfDownload").addEventListener("click", function() {
-    if (currentFunds.length === 0) {
+    if (currentPortfolio.length === 0) {
       alert("Please generate a portfolio first.");
       return;
     }
@@ -166,11 +249,14 @@
     doc.text(`Amount: ₹${document.getElementById("outInvestmentAmount").textContent}`, 15, 45);
     doc.text(`Tenor: ${document.getElementById("outTenor").textContent} years`, 15, 55);
     doc.text(`Risk Profile: ${document.getElementById("outRiskProfile").textContent}`, 15, 65);
-    doc.text(`Number of Funds: ${document.getElementById("outFundCount").textContent}`, 15, 75);
-    doc.text("Fund Recommendations:", 15, 85);
-    let y = 95;
-    currentFunds.forEach(fund => {
-      doc.text(`- ${fund}`, 20, y);
+    doc.text(`Market Scenario: ${document.getElementById("outMarketScenario").textContent}`, 15, 75);
+    doc.text(`Number of Funds: ${document.getElementById("outFundCount").textContent}`, 15, 85);
+    doc.text(`Expected Portfolio XIRR: ${document.getElementById("outPortfolioXirr").textContent}%`, 15, 95);
+    doc.text("Fund Recommendations:", 15, 105);
+    let y = 115;
+    currentPortfolio.forEach(fund => {
+      const xirrValue = document.querySelector(`#fundList li:contains("${fund.name}")`)?.textContent || '';
+      doc.text(`- ${fund.name} — XIRR: ${document.getElementById("marketScenario").value === "bear" ? fund.xirrBear : fund.xirrBull}%`, 20, y);
       y += 8;
       if (y > 280) { doc.addPage(); y = 20; }
     });
@@ -179,7 +265,7 @@
 
   // Chart.js pie chart
   let chart = null;
-  function drawChart(funds) {
+  function drawChart(funds, marketScenario) {
     const ctx = document.getElementById("allocChart").getContext("2d");
     if(chart) chart.destroy();
     const count = funds.length;
@@ -187,10 +273,11 @@
     // Adjust last slice so total is 100%
     const sum = data.reduce((a,b) => a+b, 0);
     data[data.length - 1] += 100 - sum;
+    const labels = funds.map(f => f.name);
     chart = new Chart(ctx, {
       type: "pie",
       data: {
-        labels: funds,
+        labels: labels,
         datasets: [{
           data: data,
           backgroundColor: [
@@ -206,6 +293,13 @@
         }
       }
     });
+  }
+
+  function clearChart() {
+    if(chart) {
+      chart.destroy();
+      chart = null;
+    }
   }
 </script>
 </body>
