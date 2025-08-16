@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SHRIYA WEALTH 💎 - Enhanced Mutual Fund Advisory</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -92,7 +92,7 @@
                 </div>
                 <div class="form-group">
                     <label for="amount">💵 Investment Amount (₹)</label>
-                    <input type="number" id="amount" placeholder="Enter amount" min="500">
+                    <input type="number" id="amount" placeholder="Enter amount" min="500" />
                 </div>
             </div>
             <div class="form-row">
@@ -141,14 +141,406 @@
     </div>
 </div>
 
-<!-- Paste the full JavaScript code here from my earlier answer titled "Here is the complete JavaScript code..." -->
 <script>
-/* Paste the JavaScript code exactly as given earlier above.
-   For space reasons, not repeating here, but you MUST include 
-   all the code starting from:
-   const enhancedFundDatabase = { ... }
-   and including ALL functions and document.addEventListener at the end.
-   If you need that code again, let me know! */
+    const enhancedFundDatabase = {
+        "Large Cap": [
+            {"name": "HDFC Top 100 Fund", "amc": "HDFC", "5y_return": 12.8, "3y_return": 15.2, "1y_return": 8.5, "sharpe": 1.2, "alpha": 2.1, "expense_ratio": 1.25, "aum": 25000},
+            {"name": "ICICI Prudential Bluechip Fund", "amc": "ICICI Prudential", "5y_return": 11.9, "3y_return": 14.8, "1y_return": 7.8, "sharpe": 1.1, "alpha": 1.8, "expense_ratio": 1.35, "aum": 18500},
+            {"name": "SBI Bluechip Fund", "amc": "SBI", "5y_return": 12.2, "3y_return": 14.5, "1y_return": 8.2, "sharpe": 1.15, "alpha": 1.9, "expense_ratio": 1.30, "aum": 22000},
+            {"name": "Axis Bluechip Fund", "amc": "Axis", "5y_return": 11.5, "3y_return": 13.9, "1y_return": 7.5, "sharpe": 1.08, "alpha": 1.6, "expense_ratio": 1.40, "aum": 15000},
+            {"name": "Kotak Bluechip Fund", "amc": "Kotak", "5y_return": 12.0, "3y_return": 14.2, "1y_return": 8.0, "sharpe": 1.12, "alpha": 1.7, "expense_ratio": 1.32, "aum": 16500},
+            {"name": "UTI Mastershare", "amc": "UTI", "5y_return": 11.8, "3y_return": 14.0, "1y_return": 7.9, "sharpe": 1.10, "alpha": 1.65, "expense_ratio": 1.28, "aum": 19000},
+            {"name": "Invesco India Large Cap Fund", "amc": "Invesco", "5y_return": 12.1, "3y_return": 14.3, "1y_return": 8.1, "sharpe": 1.13, "alpha": 1.75, "expense_ratio": 1.31, "aum": 12000},
+            {"name": "Motilal Oswal Large Cap Fund", "amc": "Motilal Oswal", "5y_return": 11.7, "3y_return": 13.8, "1y_return": 7.6, "sharpe": 1.09, "alpha": 1.55, "expense_ratio": 1.38, "aum": 8500}
+        ],
+        "Mid Cap": [
+            {"name": "HDFC Mid-Cap Opportunities Fund", "amc": "HDFC", "5y_return": 16.8, "3y_return": 18.2, "1y_return": 12.5, "sharpe": 1.5, "alpha": 3.2, "expense_ratio": 1.65, "aum": 15000},
+            {"name": "ICICI Prudential MidCap Fund", "amc": "ICICI Prudential", "5y_return": 15.9, "3y_return": 17.8, "1y_return": 11.8, "sharpe": 1.4, "alpha": 2.9, "expense_ratio": 1.70, "aum": 12500},
+            {"name": "SBI Magnum Midcap Fund", "amc": "SBI", "5y_return": 16.2, "3y_return": 17.5, "1y_return": 12.2, "sharpe": 1.45, "alpha": 3.0, "expense_ratio": 1.68, "aum": 13500},
+            {"name": "DSP Midcap Fund", "amc": "DSP", "5y_return": 15.5, "3y_return": 16.9, "1y_return": 11.5, "sharpe": 1.35, "alpha": 2.7, "expense_ratio": 1.75, "aum": 10000},
+            {"name": "Invesco India Mid Cap Fund", "amc": "Invesco", "5y_return": 16.0, "3y_return": 17.2, "1y_return": 11.9, "sharpe": 1.42, "alpha": 2.8, "expense_ratio": 1.72, "aum": 9500},
+            {"name": "Motilal Oswal Midcap Fund", "amc": "Motilal Oswal", "5y_return": 15.8, "3y_return": 17.0, "1y_return": 11.7, "sharpe": 1.38, "alpha": 2.75, "expense_ratio": 1.74, "aum": 8000}
+        ],
+        "Small Cap": [
+            {"name": "HDFC Small Cap Fund", "amc": "HDFC", "5y_return": 18.8, "3y_return": 20.2, "1y_return": 14.5, "sharpe": 1.3, "alpha": 4.2, "expense_ratio": 1.85, "aum": 8000},
+            {"name": "SBI Small Cap Fund", "amc": "SBI", "5y_return": 18.2, "3y_return": 19.8, "1y_return": 13.8, "sharpe": 1.25, "alpha": 3.9, "expense_ratio": 1.90, "aum": 7500},
+            {"name": "ICICI Prudential Smallcap Fund", "amc": "ICICI Prudential", "5y_return": 17.9, "3y_return": 19.5, "1y_return": 13.5, "sharpe": 1.22, "alpha": 3.7, "expense_ratio": 1.88, "aum": 6500},
+            {"name": "Axis Small Cap Fund", "amc": "Axis", "5y_return": 17.5, "3y_return": 19.0, "1y_return": 13.2, "sharpe": 1.20, "alpha": 3.5, "expense_ratio": 1.92, "aum": 5500},
+            {"name": "DSP Small Cap Fund", "amc": "DSP", "5y_return": 17.8, "3y_return": 19.2, "1y_return": 13.4, "sharpe": 1.21, "alpha": 3.6, "expense_ratio": 1.89, "aum": 6000},
+            {"name": "Invesco India Smallcap Fund", "amc": "Invesco", "5y_return": 17.6, "3y_return": 19.1, "1y_return": 13.3, "sharpe": 1.19, "alpha": 3.55, "expense_ratio": 1.91, "aum": 4500}
+        ],
+        "Flexi Cap": [
+            {"name": "Parag Parikh Flexi Cap Fund", "amc": "PPFAS", "5y_return": 24.7, "3y_return": 18.5, "1y_return": 11.1, "sharpe": 1.44, "alpha": 4.6, "expense_ratio": 0.63, "aum": 87500, "bear_performance": 85, "bull_performance": 95},
+            {"name": "HDFC Flexi Cap Fund", "amc": "HDFC", "5y_return": 22.2, "3y_return": 22.7, "1y_return": 9.0, "sharpe": 1.20, "alpha": 3.8, "expense_ratio": 0.79, "aum": 66000, "bear_performance": 78, "bull_performance": 105},
+            {"name": "JM Flexicap Fund", "amc": "JM Financial", "5y_return": 23.4, "3y_return": 24.7, "1y_return": 8.8, "sharpe": 1.02, "alpha": 4.6, "expense_ratio": 0.55, "aum": 5300, "bear_performance": 82, "bull_performance": 118},
+            {"name": "Quant Flexi Cap Fund", "amc": "Quant", "5y_return": 30.5, "3y_return": 19.6, "1y_return": 7.5, "sharpe": 0.22, "alpha": -1.2, "expense_ratio": 0.61, "aum": 7200, "bear_performance": 115, "bull_performance": 125},
+            {"name": "ICICI Prudential Flexi Cap Fund", "amc": "ICICI Prudential", "5y_return": 19.9, "3y_return": 17.1, "1y_return": 10.4, "sharpe": 1.13, "alpha": 1.8, "expense_ratio": 0.85, "aum": 18000, "bear_performance": 88, "bull_performance": 92},
+            {"name": "SBI Flexi Cap Fund", "amc": "SBI", "5y_return": 20.8, "3y_return": 18.8, "1y_return": 9.5, "sharpe": 1.18, "alpha": 2.1, "expense_ratio": 0.78, "aum": 22000, "bear_performance": 75, "bull_performance": 88},
+            {"name": "Axis Flexi Cap Fund", "amc": "Axis", "5y_return": 21.5, "3y_return": 19.2, "1y_return": 8.9, "sharpe": 1.15, "alpha": 2.5, "expense_ratio": 0.82, "aum": 15500, "bear_performance": 80, "bull_performance": 95},
+            {"name": "Kotak Flexi Cap Fund", "amc": "Kotak", "5y_return": 20.5, "3y_return": 18.5, "1y_return": 9.2, "sharpe": 1.12, "alpha": 2.3, "expense_ratio": 0.81, "aum": 16800, "bear_performance": 77, "bull_performance": 90},
+            {"name": "UTI Flexi Cap Fund", "amc": "UTI", "5y_return": 19.8, "3y_return": 17.8, "1y_return": 9.8, "sharpe": 1.08, "alpha": 1.9, "expense_ratio": 0.88, "aum": 12500, "bear_performance": 83, "bull_performance": 87},
+            {"name": "Invesco India Flexi Cap Fund", "amc": "Invesco", "5y_return": 20.3, "3y_return": 24.1, "1y_return": 9.6, "sharpe": 1.25, "alpha": 2.8, "expense_ratio": 0.75, "aum": 3400, "bear_performance": 85, "bull_performance": 110},
+            {"name": "Motilal Oswal Flexi Cap Fund", "amc": "Motilal Oswal", "5y_return": 18.9, "3y_return": 16.8, "1y_return": 8.7, "sharpe": 1.05, "alpha": 1.6, "expense_ratio": 0.90, "aum": 4500, "bear_performance": 92, "bull_performance": 85}
+        ],
+        "Large & Mid Cap": [
+            {"name": "HDFC Large and Mid Cap Fund", "amc": "HDFC", "5y_return": 14.8, "3y_return": 16.5, "1y_return": 10.2, "sharpe": 1.35, "alpha": 2.8, "expense_ratio": 1.45, "aum": 18000},
+            {"name": "ICICI Prudential Large & Mid Cap Fund", "amc": "ICICI Prudential", "5y_return": 14.2, "3y_return": 16.0, "1y_return": 9.8, "sharpe": 1.30, "alpha": 2.5, "expense_ratio": 1.50, "aum": 15500},
+            {"name": "SBI Large & Midcap Fund", "amc": "SBI", "5y_return": 14.5, "3y_return": 16.2, "1y_return": 10.0, "sharpe": 1.32, "alpha": 2.6, "expense_ratio": 1.48, "aum": 16000},
+            {"name": "Invesco India Large & Mid Cap Fund", "amc": "Invesco", "5y_return": 14.0, "3y_return": 15.8, "1y_return": 9.6, "sharpe": 1.28, "alpha": 2.4, "expense_ratio": 1.52, "aum": 8500},
+            {"name": "Motilal Oswal Large & Mid Cap Fund", "amc": "Motilal Oswal", "5y_return": 13.8, "3y_return": 15.5, "1y_return": 9.4, "sharpe": 1.25, "alpha": 2.2, "expense_ratio": 1.55, "aum": 6500}
+        ]
+    };
+
+    let currentRecommendations = null;
+    let currentMarketCondition = null;
+
+    function calculateMarketCondition() {
+        const conditions = ['bull', 'bear', 'neutral'];
+        const random = Math.random();
+        let condition = 'neutral';
+        let confidence = 75 + Math.random() * 20;
+        if (random < 0.3) {
+            condition = 'bull';
+            confidence = 80 + Math.random() * 15;
+        } else if (random < 0.5) {
+            condition = 'bear';
+            confidence = 70 + Math.random() * 20;
+        }
+        const indicators = {
+            nifty_momentum: (Math.random() - 0.5) * 30,
+            volatility: 15 + Math.random() * 25,
+            fii_flows: (Math.random() - 0.5) * 15000,
+            earnings_growth: Math.random() * 25,
+            pe_ratio: 20 + Math.random() * 15
+        };
+        return { condition, confidence, indicators };
+    }
+
+    function enhancedFundSelection(amount, goal, riskProfile, marketCondition) {
+        const allocations = {
+            'bull': {
+                'Conservative': {'Large Cap': 40, 'Flexi Cap': 30, 'Large & Mid Cap': 20, 'Mid Cap': 10, 'Small Cap': 0},
+                'Moderate': {'Large Cap': 25, 'Flexi Cap': 35, 'Large & Mid Cap': 20, 'Mid Cap': 15, 'Small Cap': 5},
+                'Aggressive': {'Large Cap': 15, 'Flexi Cap': 30, 'Large & Mid Cap': 20, 'Mid Cap': 20, 'Small Cap': 15}
+            },
+            'bear': {
+                'Conservative': {'Large Cap': 60, 'Flexi Cap': 25, 'Large & Mid Cap': 15, 'Mid Cap': 0, 'Small Cap': 0},
+                'Moderate': {'Large Cap': 45, 'Flexi Cap': 30, 'Large & Mid Cap': 20, 'Mid Cap': 5, 'Small Cap': 0},
+                'Aggressive': {'Large Cap': 35, 'Flexi Cap': 35, 'Large & Mid Cap': 20, 'Mid Cap': 10, 'Small Cap': 0}
+            },
+            'neutral': {
+                'Conservative': {'Large Cap': 50, 'Flexi Cap': 25, 'Large & Mid Cap': 20, 'Mid Cap': 5, 'Small Cap': 0},
+                'Moderate': {'Large Cap': 35, 'Flexi Cap': 30, 'Large & Mid Cap': 20, 'Mid Cap': 10, 'Small Cap': 5},
+                'Aggressive': {'Large Cap': 25, 'Flexi Cap': 30, 'Large & Mid Cap': 20, 'Mid Cap': 15, 'Small Cap': 10}
+            }
+        };
+
+        const allocation = allocations[marketCondition][riskProfile];
+        const selectedFunds = [];
+
+        Object.entries(allocation).forEach(([category, weight]) => {
+            if (weight > 0 && enhancedFundDatabase[category]) {
+                const funds = enhancedFundDatabase[category];
+
+                const scoredFunds = funds.map(fund => {
+                    let score = (0.35 * fund['5y_return'] +
+                               0.25 * fund['3y_return'] +
+                               0.15 * fund['1y_return'] +
+                               0.15 * fund['sharpe'] * 10 +
+                               0.10 * fund['alpha'] * 10);
+
+                    if (category === 'Flexi Cap') {
+                        if (marketCondition === 'bull' && fund['bull_performance']) {
+                            score *= (fund['bull_performance'] / 100);
+                        } else if (marketCondition === 'bear' && fund['bear_performance']) {
+                            score *= (fund['bear_performance'] / 100);
+                        }
+                    }
+
+                    score -= fund['expense_ratio'] * 5;
+                    score += Math.min(2, fund['aum'] / 10000);
+
+                    return { fund, score };
+                }).sort((a, b) => b.score - a.score);
+
+                let fundCount = 1;
+                if (amount > 25000 && weight > 20) fundCount = 2;
+                else if (amount > 100000 && weight > 15) fundCount = Math.min(2, scoredFunds.length);
+
+                for (let i = 0; i < Math.min(fundCount, scoredFunds.length); i++) {
+                    selectedFunds.push({
+                        fund: scoredFunds[i].fund,
+                        category,
+                        allocation_percentage: weight / fundCount,
+                        score: scoredFunds[i].score,
+                        amount: (amount * weight / 100) / fundCount
+                    });
+                }
+            }
+        });
+
+        return selectedFunds;
+    }
+
+    function calculateReturnScenarios(selectedFunds, amount, period) {
+        const scenarios = {
+            'base': { multiplier: 1.0, adjustment: 0 },
+            'conservative': { multiplier: 0.7, adjustment: -2 },
+            'optimistic': { multiplier: 1.3, adjustment: 3 }
+        };
+
+        const results = {};
+
+        Object.entries(scenarios).forEach(([scenarioName, scenarioData]) => {
+            let totalExpectedReturn = 0;
+            const fundReturns = [];
+
+            selectedFunds.forEach(fundSelection => {
+                const fund = fundSelection.fund;
+                const weight = fundSelection.allocation_percentage / 100;
+
+                let adjustedReturn = (fund['5y_return'] * scenarioData.multiplier) + scenarioData.adjustment;
+
+                if (scenarioName !== 'conservative') {
+                    adjustedReturn = Math.max(adjustedReturn, 2.0);
+                } else {
+                    adjustedReturn = Math.max(adjustedReturn, -5.0);
+                }
+
+                const futureValue = fundSelection.amount * Math.pow(1 + adjustedReturn / 100, period);
+
+                fundReturns.push({
+                    fund_name: fund.name,
+                    expected_return: adjustedReturn,
+                    future_value: futureValue,
+                    invested_amount: fundSelection.amount
+                });
+
+                totalExpectedReturn += weight * adjustedReturn;
+            });
+
+            const totalFutureValue = fundReturns.reduce((sum, f) => sum + f.future_value, 0);
+
+            results[scenarioName] = {
+                expected_return: totalExpectedReturn,
+                future_value: totalFutureValue,
+                absolute_return: totalFutureValue - amount,
+                multiplier: totalFutureValue / amount
+            };
+        });
+
+        return results;
+    }
+
+    function generateRecommendations() {
+        const goal = document.getElementById("goal").value;
+        const riskProfile = document.getElementById("riskProfile").value;
+        const investmentMode = document.getElementById("investmentMode").value;
+        const amount = parseInt(document.getElementById("amount").value);
+        const tenor = parseInt(document.getElementById("tenor").value);
+
+        if (!amount || amount < 500) {
+            alert("Please enter a valid investment amount (minimum ₹500)");
+            return;
+        }
+
+        if (investmentMode === "SIP" && (amount < 500 || amount > 50000)) {
+            alert("SIP amount should be between ₹500 and ₹50,000");
+            return;
+        }
+        if (investmentMode === "Lumpsum" && (amount < 25000 || amount > 5000000)) {
+            alert("Lumpsum amount should be between ₹25,000 and ₹50,00,000");
+            return;
+        }
+
+        const marketAnalysis = calculateMarketCondition();
+        currentMarketCondition = marketAnalysis;
+
+        const marketStatus = document.getElementById("marketStatus");
+        const marketDetails = document.getElementById("marketDetails");
+
+        marketStatus.className = `market-status ${marketAnalysis.condition}`;
+        marketStatus.style.display = "block";
+
+        marketDetails.innerHTML = `
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                <div><strong>Condition:</strong> ${marketAnalysis.condition.toUpperCase()}</div>
+                <div><strong>Confidence:</strong> ${marketAnalysis.confidence.toFixed(1)}%</div>
+                <div><strong>Nifty Momentum:</strong> ${marketAnalysis.indicators.nifty_momentum.toFixed(1)}%</div>
+                <div><strong>Volatility:</strong> ${marketAnalysis.indicators.volatility.toFixed(0)}</div>
+                <div><strong>FII Flows:</strong> ₹${marketAnalysis.indicators.fii_flows.toFixed(0)}Cr</div>
+                <div><strong>P/E Ratio:</strong> ${marketAnalysis.indicators.pe_ratio.toFixed(1)}x</div>
+            </div>
+        `;
+
+        currentRecommendations = enhancedFundSelection(amount, goal, riskProfile, marketAnalysis.condition);
+        displayResults(currentRecommendations, amount, tenor);
+    }
+
+    function displayResults(recommendations, amount, tenor) {
+        const resultsSection = document.getElementById("results");
+        const fundsList = document.getElementById("fundsList");
+        const scenarioCards = document.getElementById("scenarioCards");
+
+        resultsSection.style.display = "block";
+
+        fundsList.innerHTML = recommendations
+            .map(
+                (rec) => `
+            <div class="fund-card">
+                <div class="fund-header">
+                    <div class="fund-name">${rec.fund.name}</div>
+                    <div class="fund-category">${rec.category}</div>
+                </div>
+                <div class="fund-details">
+                    <div class="fund-metric">
+                        <div class="label">AMC</div>
+                        <div class="value">${rec.fund.amc}</div>
+                    </div>
+                    <div class="fund-metric">
+                        <div class="label">Allocation</div>
+                        <div class="value">${rec.allocation_percentage.toFixed(1)}%</div>
+                    </div>
+                    <div class="fund-metric">
+                        <div class="label">Amount</div>
+                        <div class="value">₹${rec.amount.toLocaleString()}</div>
+                    </div>
+                    <div class="fund-metric">
+                        <div class="label">5Y Return</div>
+                        <div class="value">${rec.fund["5y_return"]}%</div>
+                    </div>
+                    <div class="fund-metric">
+                        <div class="label">Expense Ratio</div>
+                        <div class="value">${rec.fund.expense_ratio}%</div>
+                    </div>
+                    <div class="fund-metric">
+                        <div class="label">Score</div>
+                        <div class="value">${rec.score.toFixed(1)}</div>
+                    </div>
+                </div>
+            </div>
+            `
+            )
+            .join("");
+
+        const scenarios = calculateReturnScenarios(recommendations, amount, tenor);
+
+        scenarioCards.innerHTML = Object.entries(scenarios)
+            .map(
+                ([name, data]) => `
+            <div class="scenario-card ${name}">
+                <div class="scenario-title">${name} Scenario</div>
+                <div class="scenario-return">${data.expected_return.toFixed(1)}%</div>
+                <div class="scenario-amount">Annual Return</div>
+                <div style="font-size: 1.5rem; font-weight: 700; margin: 10px 0;">
+                    ₹${data.future_value.toLocaleString()}
+                </div>
+                <div style="color: #64748b;">Future Value</div>
+                <div style="font-size: 1.1rem; margin-top: 10px; font-weight: 600;">
+                    ${data.multiplier.toFixed(2)}x Wealth
+                </div>
+            </div>
+            `
+            )
+            .join("");
+    }
+
+    function generatePDF() {
+        if (!currentRecommendations) {
+            alert("Please generate recommendations first");
+            return;
+        }
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        doc.setFontSize(20);
+        doc.text("SHRIYA WEALTH 💎", 105, 20, { align: "center" });
+        doc.setFontSize(14);
+        doc.text("Enhanced Mutual Fund Investment Report", 105, 30, { align: "center" });
+
+        let yPos = 50;
+
+        doc.setFontSize(16);
+        doc.text("Market Analysis", 20, yPos);
+        yPos += 10;
+
+        doc.setFontSize(12);
+        doc.text(`Market Condition: ${currentMarketCondition.condition.toUpperCase()}`, 20, yPos);
+        yPos += 8;
+        doc.text(`Confidence: ${currentMarketCondition.confidence.toFixed(1)}%`, 20, yPos);
+        yPos += 8;
+        doc.text(`Analysis Date: ${new Date().toLocaleDateString()}`, 20, yPos);
+        yPos += 20;
+
+        doc.setFontSize(16);
+        doc.text("Recommended Funds", 20, yPos);
+        yPos += 15;
+
+        currentRecommendations.forEach((rec, index) => {
+            if (yPos > 250) {
+                doc.addPage();
+                yPos = 20;
+            }
+            doc.setFontSize(14);
+            doc.text(`${index + 1}. ${rec.fund.name}`, 20, yPos);
+            yPos += 8;
+
+            doc.setFontSize(10);
+            doc.text(`   AMC: ${rec.fund.amc} | Category: ${rec.category}`, 20, yPos);
+            yPos += 6;
+            doc.text(
+                `   Allocation: ${rec.allocation_percentage.toFixed(1)}% (₹${rec.amount.toLocaleString()})`,
+                20,
+                yPos
+            );
+            yPos += 6;
+            doc.text(
+                `   5Y Return: ${rec.fund["5y_return"]}% | Expense: ${rec.fund.expense_ratio}% | Score: ${rec.score.toFixed(1)}`,
+                20,
+                yPos
+            );
+            yPos += 12;
+        });
+
+        if (yPos > 200) {
+            doc.addPage();
+            yPos = 20;
+        }
+
+        const amount = parseInt(document.getElementById("amount").value);
+        const tenor = parseInt(document.getElementById("tenor").value);
+        const scenarios = calculateReturnScenarios(currentRecommendations, amount, tenor);
+
+        doc.setFontSize(16);
+        doc.text("Expected Return Scenarios", 20, yPos);
+        yPos += 15;
+
+        Object.entries(scenarios).forEach(([name, data]) => {
+            doc.setFontSize(12);
+            doc.text(`${name.toUpperCase()}: ${data.expected_return.toFixed(1)}% (₹${data.future_value.toLocaleString()})`, 20, yPos);
+            yPos += 10;
+        });
+
+        yPos += 10;
+        doc.setFontSize(10);
+        doc.text(
+            "Disclaimer: Past performance does not guarantee future results. Mutual fund investments are subject to market risks.",
+            20,
+            yPos
+        );
+
+        const reportId = `SW-${new Date().getFullYear()}${String(new Date().getMonth() + 1).padStart(2, "0")}${String(
+            new Date().getDate()
+        ).padStart(2, "0")}-${Math.floor(Math.random() * 10000)
+            .toString()
+            .padStart(4, "0")}`;
+        doc.save(`SHRIYA_WEALTH_Report_${reportId}.pdf`);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("amount").value = "25000";
+        document.getElementById("riskProfile").value = "Moderate";
+    });
 </script>
-</body>
 </html>
