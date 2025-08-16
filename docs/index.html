@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SHRIYA WEALTH 💎 - Mutual Fund Advisory with Backtesting & PDF</title>
+<title>SHRIYA WEALTH 💎 - Enhanced Mutual Fund Advisory Platform</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
+/* CSS styling for UI */
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px;}
 .container { max-width: 1200px; margin: auto; background: #fff; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);}
 .header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; text-align: center; padding: 30px;}
@@ -52,10 +53,9 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 <div class="container">
     <div class="header">
         <h1>SHRIYA WEALTH 💎</h1>
-        <p>Mutual Fund Advisory with Backtesting & PDF</p>
+        <p>Enhanced AI-Powered Mutual Fund Advisory Platform</p>
         <p style="opacity:0.85; font-size: 0.9rem;">Powered by 25+ years of expert investment experience and advanced algorithms</p>
     </div>
-
     <div class="main-content">
         <div class="form-section">
             <h3>💡 Investment Parameters</h3>
@@ -63,83 +63,78 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
                 <div class="form-group">
                     <label for="goal">🎯 Goal</label>
                     <select id="goal">
-                        <option>Wealth Creation</option>
-                        <option>Car Purchase</option>
-                        <option>Home Purchase</option>
-                        <option>Child Education</option>
-                        <option>Retirement Planning</option>
+                        <option value="Wealth Creation">Wealth Creation</option>
+                        <option value="Car Purchase">Car Purchase</option>
+                        <option value="Home Purchase">Home Purchase</option>
+                        <option value="Child Education">Child Education</option>
+                        <option value="Retirement Planning">Retirement Planning</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="riskProfile">⚖️ Risk Profile</label>
                     <select id="riskProfile">
-                        <option>Conservative</option>
-                        <option selected>Moderate</option>
-                        <option>Aggressive</option>
+                        <option value="Conservative">Conservative</option>
+                        <option value="Moderate" selected>Moderate</option>
+                        <option value="Aggressive">Aggressive</option>
                     </select>
                 </div>
             </div>
-
             <div class="form-row">
                 <div class="form-group">
                     <label for="investmentMode">💰 Investment Mode</label>
                     <select id="investmentMode">
-                        <option selected>SIP</option>
-                        <option>Lumpsum</option>
+                        <option value="SIP" selected>SIP</option>
+                        <option value="Lumpsum">Lumpsum</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="amount">💵 Amount (₹)</label>
+                    <label for="amount">💵 Investment Amount (₹)</label>
                     <input type="number" id="amount" placeholder="Enter amount (₹500+)" min="500" value="5000"/>
                 </div>
             </div>
-
             <div class="form-row">
                 <div class="form-group">
-                    <label for="tenor">⏰ Investment Period (Years)</label>
+                    <label for="tenor">⏰ Investment Tenor (Years)</label>
                     <select id="tenor">
-                        <option>3</option>
-                        <option selected>5</option>
-                        <option>7</option>
-                        <option>10</option>
-                        <option>15</option>
-                        <option>20</option>
+                        <option value="3">3 Years</option>
+                        <option value="5" selected>5 Years</option>
+                        <option value="7">7 Years</option>
+                        <option value="10">10 Years</option>
+                        <option value="15">15 Years</option>
+                        <option value="20">20 Years</option>
                     </select>
                 </div>
-                <div style="display: flex; align-items: end;">
+                <div style="display:flex; align-items:end;">
                     <button class="calculate-btn" onclick="generateRecommendations()">🚀 Get Recommendations</button>
                 </div>
             </div>
-
             <div style="margin-top:20px;">
-                <label for="csvData">📂 Upload Historical Fund Data CSV (optional)</label>
+                <label for="csvData">📂 Optional: Upload Fund Historical Data CSV</label>
                 <input type="file" id="csvData" accept=".csv" />
-                <small>CSV format: FundName,Category,1m,3m,6m,1y,3y,5y,ExpenseRatio,Sharpe,Alpha,AUM</small>
+                <small>CSV must include columns: FundName,Category,1m,3m,6m,1y,3y,5y,ExpenseRatio,Sharpe,Alpha,AUM</small>
             </div>
         </div>
-
-        <div id="marketStatus" class="market-status"></div><div id="marketStatus" class="market-status">
-  <div id="marketDetails"></div>
-</div>
-
-
-        <div id="results" class="results-section">
+        <div id="marketStatus" class="market-status" style="display:none;">
+            <div id="marketDetails"></div>
+        </div>
+        <div id="results" class="results-section" style="display:none;">
             <h3>🎯 Recommended Mutual Funds</h3>
             <div id="fundsList"></div>
-            <h4>📈 Expected Return Scenarios</h4>
-            <div class="scenario-cards" id="scenarioCards"></div>
-            <button class="pdf-btn" onclick="generatePDF()">📄 Download PDF Report</button>
+            <div class="scenarios-section">
+                <h4>📈 Expected Return Scenarios</h4>
+                <div class="scenario-cards" id="scenarioCards"></div>
+            </div>
+            <button class="pdf-btn" onclick="generatePDF()">📄 Download Detailed PDF Report</button>
         </div>
-
         <div class="methodology">
-            <h4>🔬 Methodology</h4>
+            <h4>🔬 Enhanced Methodology</h4>
             <ul>
-                <li>Top 5 funds in category for all rolling periods (1m to 5y)</li>
-                <li>Max 2 funds for SIP ≤ ₹10,000; max 4 funds for higher amounts</li>
-                <li>Multi-scenario projections: Base, Conservative, Optimistic</li>
-                <li>Professional scoring combining returns, Sharpe, Alpha, Expense ratio, AUM</li>
-                <li>Upload CSV for fresh fund data adjudication</li>
-                <li>PDF reports with market & fund analysis</li>
+                <li>Only top 5 funds in each category for all rolling periods (1m to 5y) qualify.</li>
+                <li>Maximum 2 funds recommended for SIP ≤ ₹10,000; max 4 funds otherwise.</li>
+                <li>Multi-scenario projections: Base, Conservative, Optimistic returns.</li>
+                <li>Professional scoring considering returns, Sharpe ratio, Alpha, Expense ratio, and AUM.</li>
+                <li>User-uploadable CSV for freshest, personalized fund data adjudication.</li>
+                <li>PDF report generation with fund and market analysis.</li>
             </ul>
         </div>
     </div>
@@ -147,17 +142,19 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 
 <script>
 (() => {
+    // CSV parsing utility
     function parseCSV(text) {
         const lines = text.trim().split('\n');
         const headers = lines[0].split(',').map(h => h.trim());
         return lines.slice(1).map(line => {
             const cols = line.split(',');
             const obj = {};
-            headers.forEach((h,i) => obj[h] = cols[i]);
+            headers.forEach((h, i) => obj[h] = cols[i]);
             return obj;
         });
     }
 
+    // Embedded sample fund data with returns, expense ratios and other params
     let fundData = [
         { FundName: "HDFC Top 100 Fund", Category: "Large Cap", "1m": 1.8, "3m": 4.2, "6m": 7.4, "1y": 12.8, "3y": 15.2, "5y": 14.0, ExpenseRatio: 1.2, Sharpe: 1.2, Alpha: 2.2, AUM: 25000 },
         { FundName: "ICICI Prudential Bluechip Fund", Category: "Large Cap", "1m": 2.0, "3m": 4.0, "6m": 7.0, "1y": 11.9, "3y": 14.4, "5y": 13.5, ExpenseRatio: 1.3, Sharpe: 1.1, Alpha: 1.9, AUM: 18500 },
@@ -338,28 +335,16 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
         const marketStatus = document.getElementById("marketStatus");
         marketStatus.className = `market-status ${marketAnalysis.condition}`;
         marketStatus.style.display = "block";
-        document.getElementById(
-            "marketDetails"
-        ).innerHTML = `
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;">
-          <div><strong>Condition:</strong> ${marketAnalysis.condition.toUpperCase()}</div>
-          <div><strong>Confidence:</strong> ${marketAnalysis.confidence.toFixed(
-              1
-          )}%</div>
-          <div><strong>Nifty Momentum:</strong> ${marketAnalysis.indicators.nifty_momentum.toFixed(
-              1
-          )}%</div>
-          <div><strong>Volatility:</strong> ${marketAnalysis.indicators.volatility.toFixed(
-              0
-          )}</div>
-          <div><strong>FII Flows:</strong> ₹${marketAnalysis.indicators.fii_flows.toFixed(
-              0
-          )}Cr</div>
-          <div><strong>P/E Ratio:</strong> ${marketAnalysis.indicators.pe_ratio.toFixed(
-              1
-          )}x</div>
-        </div>
-      `;
+        document.getElementById("marketDetails").innerHTML = `
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;">
+              <div><strong>Condition:</strong> ${marketAnalysis.condition.toUpperCase()}</div>
+              <div><strong>Confidence:</strong> ${marketAnalysis.confidence.toFixed(1)}%</div>
+              <div><strong>Nifty Momentum:</strong> ${marketAnalysis.indicators.nifty_momentum.toFixed(1)}%</div>
+              <div><strong>Volatility:</strong> ${marketAnalysis.indicators.volatility.toFixed(0)}</div>
+              <div><strong>FII Flows:</strong> ₹${marketAnalysis.indicators.fii_flows.toFixed(0)}Cr</div>
+              <div><strong>P/E Ratio:</strong> ${marketAnalysis.indicators.pe_ratio.toFixed(1)}x</div>
+            </div>
+          `;
 
         currentRecommendations = enhancedFundSelection(
             amount,
@@ -380,39 +365,35 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 
         fundsList.innerHTML = recommendations
             .map(
-                (rec, idx) => `
-            <div class="fund-card">
-                <div class="fund-header">
-                    <div class="fund-name">${rec.fund.FundName}</div>
-                    <div class="fund-category">${rec.category}</div>
-                </div>
-                <div class="fund-details">
-                    <div class="fund-metric">
-                        <div class="label">AMC</div>
-                        <div class="value">${rec.fund.AMC || "N/A"}</div>
+                (rec) => `
+                <div class="fund-card">
+                    <div class="fund-header">
+                        <div class="fund-name">${rec.fund.FundName}</div>
+                        <div class="fund-category">${rec.category}</div>
                     </div>
-                    <div class="fund-metric">
-                        <div class="label">Allocation</div>
-                        <div class="value">${rec.allocation_percentage.toFixed(1)}%</div>
-                    </div>
-                    <div class="fund-metric">
-                        <div class="label">Amount</div>
-                        <div class="value">₹${rec.amount.toLocaleString()}</div>
-                    </div>
-                    <div class="fund-metric">
-                        <div class="label">5Y Return</div>
-                        <div class="value">${rec.fund["5y"] || rec.fund["5y"] === 0 ? rec.fund["5y"] : rec.fund["5y_return"]}%</div>
-                    </div>
-                    <div class="fund-metric">
-                        <div class="label">Expense Ratio</div>
-                        <div class="value">${rec.fund.ExpenseRatio}%</div>
-                    </div>
-                    <div class="fund-metric">
-                        <div class="label">Score</div>
-                        <div class="value">${rec.score.toFixed(1)}</div>
+                    <div class="fund-details">
+                        <div class="fund-metric">
+                            <div class="label">Allocation</div>
+                            <div class="value">${rec.allocation_percentage.toFixed(1)}%</div>
+                        </div>
+                        <div class="fund-metric">
+                            <div class="label">Amount</div>
+                            <div class="value">₹${rec.amount.toLocaleString()}</div>
+                        </div>
+                        <div class="fund-metric">
+                            <div class="label">5Y Return</div>
+                            <div class="value">${rec.fund["5y"]}%</div>
+                        </div>
+                        <div class="fund-metric">
+                            <div class="label">Expense Ratio</div>
+                            <div class="value">${rec.fund.ExpenseRatio}%</div>
+                        </div>
+                        <div class="fund-metric">
+                            <div class="label">Score</div>
+                            <div class="value">${rec.score.toFixed(1)}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
             `
             )
             .join("");
@@ -422,18 +403,18 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
         scenarioCards.innerHTML = Object.entries(scenarios)
             .map(
                 ([name, data]) => `
-            <div class="scenario-card ${name}">
-                <div class="scenario-title">${name} Scenario</div>
-                <div class="scenario-return">${data.expected_return.toFixed(1)}%</div>
-                <div class="scenario-amount">Annual Return</div>
-                <div style="font-size: 1.5rem; font-weight: 700; margin: 10px 0;">
-                    ₹${data.future_value.toLocaleString()}
+                <div class="scenario-card ${name}">
+                    <div class="scenario-title">${name} Scenario</div>
+                    <div class="scenario-return">${data.expected_return.toFixed(1)}%</div>
+                    <div class="scenario-amount">Annual Return</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; margin: 10px 0;">
+                        ₹${data.future_value.toLocaleString()}
+                    </div>
+                    <div style="color: #64748b;">Future Value</div>
+                    <div style="font-size: 1.1rem; margin-top: 10px; font-weight: 600;">
+                        ${data.multiplier.toFixed(2)}x Wealth
+                    </div>
                 </div>
-                <div style="color: #64748b;">Future Value</div>
-                <div style="font-size: 1.1rem; margin-top: 10px; font-weight: 600;">
-                    ${data.multiplier.toFixed(2)}x Wealth
-                </div>
-            </div>
             `
             )
             .join("");
@@ -451,7 +432,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
         doc.setFontSize(20);
         doc.text("SHRIYA WEALTH 💎", 105, 20, { align: "center" });
         doc.setFontSize(14);
-        doc.text("Mutual Fund Investment Report", 105, 30, { align: "center" });
+        doc.text("Enhanced Mutual Fund Investment Report", 105, 30, { align: "center" });
 
         let yPos = 50;
 
@@ -481,19 +462,9 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
             yPos += 8;
 
             doc.setFontSize(10);
-            doc.text(`   AMC: ${rec.fund.AMC || "N/A"} | Category: ${rec.category}`, 20, yPos);
+            doc.text(`   Allocation: ${rec.allocation_percentage.toFixed(1)}% (₹${rec.amount.toLocaleString()})`, 20, yPos);
             yPos += 6;
-            doc.text(
-                `   Allocation: ${rec.allocation_percentage.toFixed(1)}% (₹${rec.amount.toLocaleString()})`,
-                20,
-                yPos
-            );
-            yPos += 6;
-            doc.text(
-                `   5Y Return: ${rec.fund["5y"] || rec.fund["5y_return"]}% | Expense: ${rec.fund.ExpenseRatio}% | Score: ${rec.score.toFixed(1)}`,
-                20,
-                yPos
-            );
+            doc.text(`   5Y Return: ${rec.fund["5y"]}% | Expense: ${rec.fund.ExpenseRatio}% | Score: ${rec.score.toFixed(1)}`, 20, yPos);
             yPos += 12;
         });
 
@@ -518,17 +489,9 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 
         yPos += 10;
         doc.setFontSize(10);
-        doc.text(
-            "Disclaimer: Past performance does not guarantee future results. Mutual fund investments are subject to market risks.",
-            20,
-            yPos
-        );
+        doc.text("Disclaimer: Past performance does not guarantee future results. Mutual fund investments are subject to market risks.", 20, yPos);
 
-        const reportId = `SW-${new Date().getFullYear()}${String(new Date().getMonth() + 1).padStart(2, "0")}${String(
-            new Date().getDate()
-        ).padStart(2, "0")}-${Math.floor(Math.random() * 10000)
-            .toString()
-            .padStart(4, "0")}`;
+        const reportId = `SW-${new Date().getFullYear()}${String(new Date().getMonth() + 1).padStart(2, "0")}${String(new Date().getDate()).padStart(2, "0")}-${Math.floor(Math.random() * 10000).toString().padStart(4, "0")}`;
         doc.save(`SHRIYA_WEALTH_Report_${reportId}.pdf`);
     }
 
@@ -570,4 +533,3 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 </script>
 </body>
 </html>
-
