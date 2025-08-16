@@ -1,0 +1,226 @@
+:root {
+  --color-white: #fff;
+  --color-black: #000;
+  --color-primary: #215a74;
+  --color-primary-light: #2e86ab;
+  --color-bg: #f7f9fc;
+  --color-text: #333;
+  --color-positive: #2ecc71;
+  --color-negative: #e74c3c;
+  --color-neutral: #7f8c8d;
+  --color-info: #3498db;
+  --color-highlight: #ffd54f;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.wealth-header {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 20px 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+}
+
+.diamond-logo {
+  font-size: 3rem;
+  margin-right: 10px;
+}
+
+.brand-title {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.brand-subtitle {
+  margin: 0;
+  font-weight: 300;
+  font-size: 0.9rem;
+}
+
+.market-indicators {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 100px;
+}
+
+.indicator-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.indicator-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.indicator-value.positive {
+  color: var(--color-positive);
+}
+
+.indicator-value.negative {
+  color: var(--color-negative);
+}
+
+.indicator-value.neutral {
+  color: var(--color-neutral);
+}
+
+.indicator-value.info {
+  color: var(--color-info);
+}
+
+.main-container {
+  padding: 30px 0;
+  min-height: calc(100vh - 100px);
+}
+
+.investment-section {
+  background: var(--color-white);
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+form select, form input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 18px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+button#generateBtn {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 12px 25px;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button#generateBtn:hover {
+  background-color: var(--color-primary-light);
+}
+
+.hidden {
+  display: none;
+}
+
+.progress-bar-container {
+  background: #dfe6e9;
+  border-radius: 6px;
+  width: 100%;
+  height: 15px;
+  overflow: hidden;
+  margin-top: 15px;
+}
+
+.progress-bar {
+  background: var(--color-primary);
+  height: 100%;
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+#portfolioSection {
+  background: var(--color-white);
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+#portfolioTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#portfolioTable thead tr {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+#portfolioTable th, #portfolioTable td {
+  padding: 12px 10px;
+  border: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+#portfolioTable tbody tr:nth-child(even) {
+  background-color: #f4f6f8;
+}
+
+#fundCountBadge {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-left: 10px;
+}
+
+.new-fund-tag {
+  color: var(--color-highlight);
+  font-weight: 700;
+}
+
+.footer {
+  background: var(--color-primary);
+  color: var(--color-white);
+  text-align: center;
+  padding: 15px 0;
+  font-size: 0.9rem;
+  margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+  .header-content, .market-indicators {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .indicator {
+    margin-bottom: 15px;
+  }
+}
