@@ -6,7 +6,6 @@
 <title>SHRIYA WEALTH 💎 - Mutual Fund Advisory with Backtesting & PDF</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-/* -- styles omitted for brevity; use the styles from previous combined file -- */
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px;}
 .container { max-width: 1200px; margin: auto; background: #fff; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);}
 .header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; text-align: center; padding: 30px;}
@@ -53,7 +52,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 <div class="container">
     <div class="header">
         <h1>SHRIYA WEALTH 💎</h1>
-        <p>Mutual Fund Advisory with Backtesting & PDF Reports</p>
+        <p>Mutual Fund Advisory with Backtesting & PDF</p>
         <p style="opacity:0.85; font-size: 0.9rem;">Powered by 25+ years of expert investment experience and advanced algorithms</p>
     </div>
 
@@ -90,7 +89,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="amount">💵 Investment Amount (₹)</label>
+                    <label for="amount">💵 Amount (₹)</label>
                     <input type="number" id="amount" placeholder="Enter amount (₹500+)" min="500" value="5000"/>
                 </div>
             </div>
@@ -113,9 +112,9 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
             </div>
 
             <div style="margin-top:20px;">
-                <label for="csvData">📂 Optional: Upload Fund Historical Data CSV</label>
+                <label for="csvData">📂 Upload Historical Fund Data CSV (optional)</label>
                 <input type="file" id="csvData" accept=".csv" />
-                <small>CSV must include: FundName,Category,1m,3m,6m,1y,3y,5y,ExpenseRatio,Sharpe,Alpha,AUM</small>
+                <small>CSV format: FundName,Category,1m,3m,6m,1y,3y,5y,ExpenseRatio,Sharpe,Alpha,AUM</small>
             </div>
         </div>
 
@@ -132,12 +131,12 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
         <div class="methodology">
             <h4>🔬 Methodology</h4>
             <ul>
-                <li>Only top 5 funds in each category across all rolling periods (1m to 5y) qualify.</li>
-                <li>Recommendations limited to 2–3 funds for SIP amounts under ₹10,000.</li>
-                <li>Multi-scenario projections: Base, Conservative, Optimistic.</li>
-                <li>Professional-grade scoring combining returns, Sharpe, Alpha, Expense ratio, and AUM.</li>
-                <li>Option to upload your own CSV data for freshest adjudication.</li>
-                <li>PDF report generation with detailed fund & market analysis.</li>
+                <li>Top 5 funds in category for all rolling periods (1m to 5y)</li>
+                <li>Max 2 funds for SIP ≤ ₹10,000; max 4 funds for higher amounts</li>
+                <li>Multi-scenario projections: Base, Conservative, Optimistic</li>
+                <li>Professional scoring combining returns, Sharpe, Alpha, Expense ratio, AUM</li>
+                <li>Upload CSV for fresh fund data adjudication</li>
+                <li>PDF reports with market & fund analysis</li>
             </ul>
         </div>
     </div>
@@ -145,7 +144,6 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 
 <script>
 (() => {
-    // Utility function to parse CSV text into objects
     function parseCSV(text) {
         const lines = text.trim().split('\n');
         const headers = lines[0].split(',').map(h => h.trim());
@@ -157,14 +155,10 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
         });
     }
 
-    // Sample dataset embedded as backup if user does not upload CSV
-    // Each fund has rolling returns (in %), expense ratio (%), sharpe, alpha and AUM (in crores)
     let fundData = [
-        // Sample Large Cap Funds
         { FundName: "HDFC Top 100 Fund", Category: "Large Cap", "1m": 1.8, "3m": 4.2, "6m": 7.4, "1y": 12.8, "3y": 15.2, "5y": 14.0, ExpenseRatio: 1.2, Sharpe: 1.2, Alpha: 2.2, AUM: 25000 },
         { FundName: "ICICI Prudential Bluechip Fund", Category: "Large Cap", "1m": 2.0, "3m": 4.0, "6m": 7.0, "1y": 11.9, "3y": 14.4, "5y": 13.5, ExpenseRatio: 1.3, Sharpe: 1.1, Alpha: 1.9, AUM: 18500 },
         { FundName: "SBI Bluechip Fund", Category: "Large Cap", "1m": 1.5, "3m": 3.8, "6m": 7.2, "1y": 12.2, "3y": 14.0, "5y": 13.9, ExpenseRatio: 1.3, Sharpe: 1.1, Alpha: 2.0, AUM: 22000 },
-        // Sample Flexi Cap Funds (strong returns)
         { FundName: "Parag Parikh Flexi Cap Fund", Category: "Flexi Cap", "1m": 2.2, "3m": 5.0, "6m": 9.5, "1y": 24.7, "3y": 19.5, "5y": 20.5, ExpenseRatio: 0.65, Sharpe: 1.45, Alpha: 4.6, AUM: 87500 },
         { FundName: "HDFC Flexi Cap Fund", Category: "Flexi Cap", "1m": 1.8, "3m": 4.2, "6m": 8.2, "1y": 22.2, "3y": 20.0, "5y": 18.5, ExpenseRatio: 0.8, Sharpe: 1.2, Alpha: 3.8, AUM: 66000 },
         { FundName: "JM Flexicap Fund", Category: "Flexi Cap", "1m": 2.5, "3m": 5.6, "6m": 10.0, "1y": 23.4, "3y": 21.0, "5y": 19.8, ExpenseRatio: 0.55, Sharpe: 1.0, Alpha: 4.6, AUM: 5300 },
@@ -195,7 +189,6 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
         return { condition, confidence, indicators };
     }
 
-    // Filter funds to top 5 in each category for all rolling returns (1m, 3m, 6m, 1y, 3y, 5y)
     function filterTopFunds(data) {
         const periods = ["1m", "3m", "6m", "1y", "3y", "5y"];
         const categories = [...new Set(data.map(f => f.Category))];
@@ -213,7 +206,6 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
             filtered.push(...catFunds);
         });
 
-        // Remove duplicates after filtering on all periods
         const unique = [];
         const names = new Set();
         filtered.forEach(fund => {
@@ -248,8 +240,6 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
         let filteredFunds = filterTopFunds(fundData);
         const selectedFunds = [];
 
-        // Determine maximum funds recommended based on amount
-        // ≤ 10k SIP → max 2 funds total, >10k SIP → max 4 funds total
         let maxFunds = amount <= 10000 ? 2 : 4;
 
         for (const category in allocation) {
@@ -258,11 +248,9 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
                 const catFunds = filteredFunds.filter(f => f.Category === category);
                 if (catFunds.length === 0) continue;
 
-                // Pick the top fund(s) from category until maxFunds reached
                 for (let i = 0; i < catFunds.length && selectedFunds.length < maxFunds; i++) {
                     let fund = catFunds[i];
 
-                    // Scoring formula
                     let score =
                         0.3 * fund["5y"] +
                         0.25 * fund["3y"] +
@@ -270,7 +258,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
                         0.1 * fund["6m"] +
                         0.1 * fund["3m"] +
                         0.1 * fund["1m"] -
-                        fund.ExpenseRatio * 5; // penalty for expense ratio
+                        fund.ExpenseRatio * 5;
 
                     selectedFunds.push({
                         fund,
@@ -422,7 +410,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
                     </div>
                 </div>
             </div>
-        `
+            `
             )
             .join("");
 
@@ -443,7 +431,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
                     ${data.multiplier.toFixed(2)}x Wealth
                 </div>
             </div>
-        `
+            `
             )
             .join("");
     }
@@ -541,7 +529,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
         doc.save(`SHRIYA_WEALTH_Report_${reportId}.pdf`);
     }
 
-    document.getElementById('csvData')?.addEventListener('change', function(evt) {
+    document.getElementById('csvData').addEventListener('change', function(evt) {
         const file = evt.target.files[0];
         if (!file) return;
         const reader = new FileReader();
@@ -549,7 +537,6 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
             const text = e.target.result;
             try {
                 const csvFunds = parseCSV(text).map(row => {
-                    // Normalize CSV column names & cast numbers
                     return {
                         FundName: row.FundName,
                         Category: row.Category,
@@ -574,6 +561,8 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
         reader.readAsText(file);
     });
 
+    window.generateRecommendations = generateRecommendations;
+    window.generatePDF = generatePDF;
 })();
 </script>
 </body>
