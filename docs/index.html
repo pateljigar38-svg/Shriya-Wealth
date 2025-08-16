@@ -254,11 +254,16 @@
     doc.text(`Expected Portfolio XIRR: ${document.getElementById("outPortfolioXirr").textContent}%`, 15, 95);
     doc.text("Fund Recommendations:", 15, 105);
     let y = 115;
+
     currentPortfolio.forEach(fund => {
-      const xirrValue = document.querySelector(`#fundList li:contains("${fund.name}")`)?.textContent || '';
-      doc.text(`- ${fund.name} — XIRR: ${document.getElementById("marketScenario").value === "bear" ? fund.xirrBear : fund.xirrBull}%`, 20, y);
+      const xirrValue = document.getElementById("marketScenario").value === 'bear' ? fund.xirrBear : fund.xirrBull;
+      const text = `- ${fund.name} — XIRR: ${xirrValue}%`;
+      doc.text(text, 20, y);
       y += 8;
-      if (y > 280) { doc.addPage(); y = 20; }
+      if (y > 280) { 
+        doc.addPage(); 
+        y = 20; 
+      }
     });
     doc.save("shriya-wealth-portfolio.pdf");
   });
