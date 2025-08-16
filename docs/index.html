@@ -3,107 +3,45 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Shriya Wealth Investment Model</title>
+<title>SHRIYA WEALTH 💎 - Enhanced Mutual Fund Advisory Platform</title>
 <style>
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    background: #f4f7fa;
-    margin: 0;
-    padding: 0;
-  }
-  header {
-    background-color: #003366;
-    color: #fff;
-    padding: 1.5rem;
-    text-align: center;
-    font-weight: 700;
-    font-size: 24px;
-  }
-  main {
-    max-width: 700px;
-    margin: 2rem auto;
-    background: #ffffff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 0 24px rgba(0, 0, 0, 0.1);
-  }
-  label {
-    display: block;
-    margin-top: 1.25rem;
-    font-weight: 600;
-  }
-  input[type="number"],
-  select {
-    width: 100%;
-    padding: 0.6rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    margin-top: 0.4rem;
-    font-size: 1rem;
-  }
-  button {
-    margin-top: 2rem;
-    padding: 0.9rem 1.7rem;
-    background-color: #003366;
-    color: #fff;
-    font-weight: 700;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .output {
-    margin-top: 2rem;
-    padding: 1.2rem;
-    background: #eef4fb;
-    border-radius: 6px;
-  }
-  .fund-list {
-    margin-top: 0.8rem;
-    list-style: disc inside;
-  }
-  .note-list {
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    color: #555;
-  }
+  body { font-family: Arial, sans-serif; background: #f5f7fa; margin: 0; }
+  header { background: #16336e; color: #fff; padding: 2rem; text-align: center; font-size: 2rem; font-weight: bold; }
+  main { max-width: 600px; margin: 2rem auto; background: #fff; border-radius: 10px; box-shadow: 0 0 20px #d3d8df; padding: 2rem; }
+  label { display: block; margin-top: 1rem; font-weight: bold; }
+  input, select { width: 100%; padding: 0.6rem; margin: 0.5rem 0 1rem 0; border: 1px solid #bbb; border-radius: 5px; font-size: 1rem; }
+  button { background: #16336e; color: #fff; border: none; border-radius: 5px; padding: 0.8rem 2rem; font-size: 1.1rem; cursor: pointer; margin-top: 1rem; }
+  .output { margin-top: 2rem; background: #f0f4fa; border-radius: 8px; padding: 1.2rem; }
+  .output h2 { margin-top: 0; color: #16336e; }
+  .fund-list { list-style: disc inside; margin: 0.8rem 0 0 0; }
+  ul.note-list { font-size: 0.96rem; color: #3b4c69; margin-top: 1.5rem; }
 </style>
+<!-- jsPDF CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<header>Shriya Wealth Investment Model</header>
+<header>
+  SHRIYA WEALTH 💎<br>
+  Enhanced Mutual Fund Advisory Platform
+</header>
 <main>
-  <form id="investmentForm">
+  <form id="advisorForm">
     <label for="investmentType">Investment Type</label>
-    <select id="investmentType" name="investmentType" required>
+    <select id="investmentType" required>
       <option value="sip">SIP</option>
       <option value="lumpsum">Lumpsum</option>
     </select>
 
     <label for="investmentAmount">Investment Amount (₹)</label>
-    <input
-      type="number"
-      id="investmentAmount"
-      name="investmentAmount"
-      min="1000"
-      step="100"
-      placeholder="Enter investment amount"
-      required
-    />
+    <input type="number" id="investmentAmount" min="1000" step="100" required placeholder="Enter amount" />
 
-    <label for="tenor">Investment Tenor (Years, 3 - 30)</label>
-    <input
-      type="number"
-      id="tenor"
-      name="tenor"
-      min="3"
-      max="30"
-      value="5"
-      required
-    />
+    <label for="tenor">Investment Tenor (Years: 3-30)</label>
+    <input type="number" id="tenor" min="3" max="30" required placeholder="Enter tenor (3-30)" value="5" />
 
     <label for="riskProfile">Risk Profile</label>
-    <select id="riskProfile" name="riskProfile" required>
+    <select id="riskProfile" required>
       <option value="conservative">Conservative</option>
       <option value="moderate">Moderate</option>
       <option value="aggressive">Aggressive</option>
@@ -111,14 +49,13 @@
 
     <button type="submit">Generate Portfolio</button>
   </form>
-
   <div id="output" class="output" style="display:none;">
     <h2>Suggested Portfolio</h2>
-    <p><b>Investment Type:</b> <span id="outInvestmentType"></span></p>
-    <p><b>Investment Amount:</b> ₹<span id="outInvestmentAmount"></span></p>
-    <p><b>Investment Tenor:</b> <span id="outTenor"></span> years</p>
-    <p><b>Risk Profile:</b> <span id="outRiskProfile"></span></p>
-    <p><b>Number of Funds Suggested:</b> <span id="outFundCount"></span></p>
+    <p><strong>Investment Type:</strong> <span id="outInvestmentType"></span></p>
+    <p><strong>Investment Amount:</strong> ₹<span id="outInvestmentAmount"></span></p>
+    <p><strong>Investment Tenor:</strong> <span id="outTenor"></span> years</p>
+    <p><strong>Risk Profile:</strong> <span id="outRiskProfile"></span></p>
+    <p><strong>Number of Funds Suggested:</strong> <span id="outFundCount"></span></p>
     <h3>Fund Recommendations</h3>
     <ul id="fundList" class="fund-list"></ul>
     <h3>Important Notes</h3>
@@ -129,24 +66,26 @@
       <li>Supports investment tenors from 3 to 30 years with compounded calculations.</li>
       <li>Includes full AMFI universe coverage simulated with quality fund selections.</li>
     </ul>
+    <button id="pdfDownload" style="margin-top:1rem;">Download Portfolio PDF</button>
+    <canvas id="allocChart" width="400" height="200" style="margin-top:1rem;"></canvas>
   </div>
 </main>
-
 <script>
+  // Veteran fund pools (simulated)
   const fundPools = {
-    conservative: ['Index Fund A', 'Bond Fund B', 'Balanced Fund C'],
-    moderate: ['Large Cap Fund D', 'Multi Cap Fund E', 'Hybrid Fund F'],
-    aggressive: ['Sectoral Fund G', 'Mid Cap Fund H', 'Small Cap Fund I', 'Thematic Fund J']
+    conservative: ["Index Fund (Mandatory)", "Bond Fund", "Large Cap Fund"],
+    moderate: ["Multi Cap Fund", "Hybrid Fund", "Large & Midcap Fund", "ELSS Fund"],
+    aggressive: ["Sectoral Fund (Mandatory)", "Mid Cap Fund", "Small Cap Fund", "Thematic Fund", "Value Fund"]
   };
 
-  function calculateFundCount(type, amount) {
-    if (type === 'sip') {
+  function getFundLimit(type, amount) {
+    if (type === "sip") {
       if (amount <= 5000) return 3;
       if (amount <= 10000) return 5;
       if (amount <= 15000) return 6;
       return 7;
     }
-    if (type === 'lumpsum') {
+    if (type === "lumpsum") {
       if (amount <= 100000) return 3;
       if (amount <= 500000) return 5;
       return 7;
@@ -155,53 +94,119 @@
   }
 
   function generateFunds(risk, count) {
-    const mandatory = risk === 'conservative' ? 'Index Fund (Mandatory)' : risk === 'aggressive' ? 'Sectoral Fund (Mandatory)' : 'Diversified Equity Fund (Mandatory)';
-    const pool = fundPools[risk] || fundPools['moderate'];
-    let funds = [mandatory];
-    let idx = 0;
-    while (funds.length < count) {
-      const fund = pool[idx % pool.length];
-      if (!funds.includes(fund)) {
-        funds.push(fund);
-      }
+    let pool = fundPools[risk] || [];
+    let funds = [];
+    let mandatoryFund = pool[0];
+    funds.push(mandatoryFund);
+    let idx = 1;
+    while (funds.length < count && idx < pool.length) {
+      funds.push(pool[idx]);
       idx++;
+      if (idx >= pool.length) idx = 1; // cycle through remaining funds if needed
+    }
+    while (funds.length < count) {
+      funds.push("Quality Equity Fund (Selection based on XIRR & Suitability)");
     }
     return funds;
   }
 
-  document.getElementById('investmentForm').addEventListener('submit', (e) => {
-    e.preventDefault();
+  let currentFunds = [];
 
-    const type = document.getElementById('investmentType').value;
-    const amount = Number(document.getElementById('investmentAmount').value);
-    const tenor = Number(document.getElementById('tenor').value);
-    const risk = document.getElementById('riskProfile').value;
+  document.getElementById("advisorForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    let type = document.getElementById("investmentType").value;
+    let amount = Number(document.getElementById("investmentAmount").value);
+    let tenor = Number(document.getElementById("tenor").value);
+    let risk = document.getElementById("riskProfile").value;
 
     if (amount < 1000) {
-      alert('Please enter an investment amount of at least ₹1000.');
+      alert("Please enter an investment amount of at least ₹1000.");
+      return;
+    }
+    if (tenor < 3 || tenor > 30) {
+      alert("Tenor must be between 3 and 30 years.");
       return;
     }
 
-    const fundCount = calculateFundCount(type, amount);
-    const funds = generateFunds(risk, fundCount);
+    let fundCount = getFundLimit(type, amount);
+    let fundList = generateFunds(risk, fundCount);
+    currentFunds = fundList.slice();
 
-    document.getElementById('outInvestmentType').textContent = type.toUpperCase();
-    document.getElementById('outInvestmentAmount').textContent = amount.toLocaleString();
-    document.getElementById('outTenor').textContent = tenor;
-    document.getElementById('outRiskProfile').textContent = risk.charAt(0).toUpperCase() + risk.slice(1);
-    document.getElementById('outFundCount').textContent = fundCount;
-
-    const fundListElem = document.getElementById('fundList');
-    fundListElem.innerHTML = '';
-    funds.forEach(fund => {
-      const li = document.createElement('li');
+    document.getElementById("outInvestmentType").textContent = type.toUpperCase();
+    document.getElementById("outInvestmentAmount").textContent = amount.toLocaleString();
+    document.getElementById("outTenor").textContent = tenor;
+    document.getElementById("outRiskProfile").textContent = risk.charAt(0).toUpperCase() + risk.slice(1);
+    document.getElementById("outFundCount").textContent = fundCount;
+    let fundListElem = document.getElementById("fundList");
+    fundListElem.innerHTML = "";
+    fundList.forEach(function(fund) {
+      let li = document.createElement("li");
       li.textContent = fund;
       fundListElem.appendChild(li);
     });
 
-    document.getElementById('output').style.display = 'block';
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    document.getElementById("output").style.display = "block";
+    drawChart(fundList);
+
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   });
+
+  // PDF generation (jsPDF)
+  document.getElementById("pdfDownload").addEventListener("click", function() {
+    if (currentFunds.length === 0) {
+      alert("Please generate a portfolio first.");
+      return;
+    }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text("SHRIYA WEALTH Portfolio", 15, 20);
+    doc.setFontSize(12);
+    doc.text(`Investment Type: ${document.getElementById("outInvestmentType").textContent}`, 15, 35);
+    doc.text(`Amount: ₹${document.getElementById("outInvestmentAmount").textContent}`, 15, 45);
+    doc.text(`Tenor: ${document.getElementById("outTenor").textContent} years`, 15, 55);
+    doc.text(`Risk Profile: ${document.getElementById("outRiskProfile").textContent}`, 15, 65);
+    doc.text(`Number of Funds: ${document.getElementById("outFundCount").textContent}`, 15, 75);
+    doc.text("Fund Recommendations:", 15, 85);
+    let y = 95;
+    currentFunds.forEach(fund => {
+      doc.text(`- ${fund}`, 20, y);
+      y += 8;
+      if (y > 280) { doc.addPage(); y = 20; }
+    });
+    doc.save("shriya-wealth-portfolio.pdf");
+  });
+
+  // Chart.js pie chart
+  let chart = null;
+  function drawChart(funds) {
+    const ctx = document.getElementById("allocChart").getContext("2d");
+    if(chart) chart.destroy();
+    const count = funds.length;
+    const data = new Array(count).fill(Math.floor(100 / count));
+    // Adjust last slice so total is 100%
+    const sum = data.reduce((a,b) => a+b, 0);
+    data[data.length - 1] += 100 - sum;
+    chart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: funds,
+        datasets: [{
+          data: data,
+          backgroundColor: [
+            "#16336e", "#4169e1", "#7fc8f8", "#ffbb28", 
+            "#fd5e53", "#85e3ff", "#c1f7dc", "#b8d2f2"
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: "bottom" }
+        }
+      }
+    });
+  }
 </script>
 </body>
 </html>
